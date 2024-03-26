@@ -1,6 +1,10 @@
+// Import the Express library
 const express = require('express');
+// Invoke the the Express library and create an instance of an Express application 
+// saved under the constant variable app
 const app = express();
-
+const bodyParser = require('body-parser');
+const cors = require('cors');
 module.exports = app;
 
 /* Do not change the following line! It is required for testing and allowing
@@ -9,13 +13,14 @@ module.exports = app;
 const PORT = process.env.PORT || 4001;
 
 // Add middleware for handling CORS requests from index.html
+app.use(cors());
 
-
-// Add middware for parsing request bodies here:
-
+// Add middleware for parsing request bodies here:
+app.use(bodyParser.json());
 
 // Mount your existing apiRouter below at the '/api' path.
 const apiRouter = require('./server/api');
+app.use('/api', apiRouter);
 
 
 // This conditional is here for testing purposes:

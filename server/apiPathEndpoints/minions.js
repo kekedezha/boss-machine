@@ -29,7 +29,7 @@ minionsRouter.get('/', (req,res,next) => {
 
 // POST request that creates a new minion and saves it to the database
 minionsRouter.post('/', (req,res,next) => {
-    const newMinionToCreate = req.query;
+    const newMinionToCreate = req.body;
 
     if(newMinionToCreate.name && newMinionToCreate.title && newMinionToCreate.weaknesses && newMinionToCreate.salary) {
         const newMinion = addToDatabase('minions', newMinionToCreate);
@@ -46,7 +46,7 @@ minionsRouter.get('/:minionId', (req,res,next) => {
 
 // PUT request that updates a single minion by id
 minionsRouter.put('/:minionId', (req,res,next) => {
-    const minionToUpdate = req.query;
+    const minionToUpdate = req.body;
     const updatedMinion = updateInstanceInDatabase('minions', minionToUpdate);
     if(updatedMinion) {
         res.status(200).send(updatedMinion);

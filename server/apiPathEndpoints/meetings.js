@@ -9,7 +9,7 @@ meetingsRouter.get('/', (req,res,next) => {
 
 // POST request that creates a new meeting and saves it to the database
 meetingsRouter.post('/', (req,res,next) => {
-    const newMeetingToCreate = req.query;
+    const newMeetingToCreate = req.body;
 
     if (newMeetingToCreate.time && newMeetingToCreate.date && newMeetingToCreate.day && newMeetingToCreate.note) {
         const newIdea = addToDatabase('meetings', newMeetingToCreate);

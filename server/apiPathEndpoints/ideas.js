@@ -29,7 +29,7 @@ ideasRouter.get('/', (req,res,next) => {
 
 // POST request that creates a new idea and saves it to the database
 ideasRouter.post('/', (req,res,next) => {
-    const newIdeaToCreate = req.query;
+    const newIdeaToCreate = req.body;
 
     if(newIdeaToCreate.name && newIdeaToCreate.description && newIdeaToCreate.weeklyRevenue && newIdeaToCreate.numWeeks) {
         const newIdea = addToDatabase('ideas', newIdeaToCreate);
@@ -46,7 +46,7 @@ ideasRouter.get('/:ideaId', (req,res,next) => {
 
 // PUT request that updates a single idea by id
 ideasRouter.put('/:ideaId', (req,res,next) => {
-    const ideaToUpdate = req.query;
+    const ideaToUpdate = req.body;
     const updatedIdea = updateInstanceInDatabase('ideas', ideaToUpdate);
     if(updatedIdea) {
         res.status(200).send(updatedIdea);

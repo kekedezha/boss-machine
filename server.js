@@ -22,6 +22,15 @@ app.use(bodyParser.json());
 const apiRouter = require('./server/api');
 app.use('/api', apiRouter);
 
+// Mount '/minions', '/ideas', and '/meetings' to apiRouter. 
+const minionsRouter = require ('./server/apiPathEndpoints/minions');
+apiRouter.use('/minions', minionsRouter); // '/api/minions'
+const ideasRouter = require ('./server/apiPathEndpoints/ideas');
+apiRouter.use('/ideas', ideasRouter); // '/api/ideas'
+const meetingsRouter = require ('./server/apiPathEndpoints/meetings');
+apiRouter.use('/meetings', meetingsRouter); // '/api/meetings'
+
+
 
 // This conditional is here for testing purposes:
 if (!module.parent) { 

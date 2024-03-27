@@ -9,7 +9,7 @@ const { getAllFromDatabase,
 minionsRouter.param('minionId', (req,res,next,id) => {
     let minionId = Number(id);
     try {
-        const found = getFromDatabaseById('minion', minionId);
+        const found = getFromDatabaseById('minions', minionId);
     
         if (found) {
             req.id = minionId;
@@ -41,13 +41,13 @@ minionsRouter.post('/', (req,res,next) => {
 
 // GET request that returns a single minion by id
 minionsRouter.get('/:minionId', (req,res,next) => {
-    res.status(200).send(getFromDatabaseById('minion', req.id));
+    res.status(200).send(getFromDatabaseById('minions', req.id));
 })
 
 // PUT request that updates a single minion by id
 minionsRouter.put('/:minionId', (req,res,next) => {
     const minionToUpdate = req.query;
-    const updatedMinion = updateInstanceInDatabase('minion', minionToUpdate);
+    const updatedMinion = updateInstanceInDatabase('minions', minionToUpdate);
     if(updatedMinion) {
         res.status(200).send(updatedMinion);
     } else {
@@ -56,7 +56,7 @@ minionsRouter.put('/:minionId', (req,res,next) => {
 })
 
 // DELETE request that deletes a single minion by id
-minionsRouter.delete('/minionId', (req,res,next) => {
+minionsRouter.delete('/:minionId', (req,res,next) => {
     res.status(200).send(deleteFromDatabasebyId('minions', req.id));
 })
 

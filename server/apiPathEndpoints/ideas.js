@@ -5,6 +5,7 @@ const { getAllFromDatabase,
         getFromDatabaseById, 
         updateInstanceInDatabase, 
         deleteFromDatabasebyId } = require('../db') // import database functions from './db.js'
+const checkMillionDollarIdea = require('../checkMillionDollarIdea');
 
 ideasRouter.param('ideaId', (req,res,next,id) => {
     let ideaId = id;
@@ -32,8 +33,10 @@ ideasRouter.post('/', (req,res,next) => {
     const newIdeaToCreate = req.body;
 
     if(newIdeaToCreate.name && newIdeaToCreate.description && newIdeaToCreate.weeklyRevenue && newIdeaToCreate.numWeeks) {
-        const newIdea = addToDatabase('ideas', newIdeaToCreate);
-        res.status(201).send(newIdea);
+        if (checkMillionDollarIdea(Number(newIdeaToCreate.numWeeks), Number(newIdeaToCreate.weeklyRevenue))) {
+            const newIdea = addToDatabase('ideas', newIdeaToCreate);
+            res.status(201).send(newIdea);
+        }
     } else {
         res.status(400).send("Idea must have all fields filled out to be created!")
     }
@@ -47,11 +50,13 @@ ideasRouter.get('/:ideaId', (req,res,next) => {
 // PUT request that updates a single idea by id
 ideasRouter.put('/:ideaId', (req,res,next) => {
     const ideaToUpdate = req.body;
-    const updatedIdea = updateInstanceInDatabase('ideas', ideaToUpdate);
-    if(updatedIdea) {
-        res.status(200).send(updatedIdea);
-    } else {
-        res.status(400).send("Invalid input")
+    if (checkMillionDollarIdea(Number(ideaToUpdate.numWeeks), Number(ideaToUpdate.weeklyRevenue))) {
+        const updatedIdea = updateInstanceInDatabase('ideas', ideaToUpdate);
+        if(updatedIdea) {
+            res.status(200).send(updatedIdea);
+        } else {
+            res.status(400).send("Invalid input")
+        }
     }
 })
 

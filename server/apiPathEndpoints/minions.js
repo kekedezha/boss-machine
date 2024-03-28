@@ -7,10 +7,9 @@ const { getAllFromDatabase,
         deleteFromDatabasebyId } = require('../db') // import database functions from './db.js'
 
 minionsRouter.param('minionId', (req,res,next,id) => {
-    let minionId = Number(id);
+    let minionId = id;
     try {
         const found = getFromDatabaseById('minions', minionId);
-    
         if (found) {
             req.id = minionId;
             next();
@@ -41,7 +40,9 @@ minionsRouter.post('/', (req,res,next) => {
 
 // GET request that returns a single minion by id
 minionsRouter.get('/:minionId', (req,res,next) => {
-    res.status(200).send(getFromDatabaseById('minions', req.id));
+    const requestedMinion = getFromDatabaseById('minions', req.id);
+    console.log(requestedMinion);
+    res.status(200).json(requestedMinion);
 })
 
 // PUT request that updates a single minion by id

@@ -7,7 +7,7 @@ const { getAllFromDatabase,
         deleteFromDatabasebyId } = require('../db') // import database functions from './db.js'
 
 ideasRouter.param('ideaId', (req,res,next,id) => {
-    let ideaId = Number(id);
+    let ideaId = id;
     try {
         const found = getFromDatabaseById('ideas', ideaId);
     

@@ -16,6 +16,7 @@ ideasRouter.param('ideaId', (req,res,next,id) => {
             req.id = ideaId;
             next();
         } else {
+            req.status = 404;
             next(new Error("The requested idea was not found in our database. Please try a different Id."))
         }
     } catch (err) {
@@ -29,14 +30,10 @@ ideasRouter.get('/', (req,res,next) => {
 })
 
 // POST request that creates a new idea and saves it to the database
-ideasRouter.post('/', (req,res,next) => {
-    const newIdeaToCreate = req.body;
-
-    if(newIdeaToCreate.name && newIdeaToCreate.description && newIdeaToCreate.weeklyRevenue && newIdeaToCreate.numWeeks) {
-        if (checkMillionDollarIdea(Number(newIdeaToCreate.numWeeks), Number(newIdeaToCreate.weeklyRevenue))) {
-            const newIdea = addToDatabase('ideas', newIdeaToCreate);
-            res.status(201).send(newIdea);
-        }
+ideasRouter.post('/', checkMillionDollarIdea, (req,res,next) => {
+    if(req.body) {
+        const newIdea = addToDatabase('ideas', req.body);
+        res.status(201).send(newIdea);
     } else {
         res.status(400).send("Idea must have all fields filled out to be created!")
     }
@@ -48,21 +45,18 @@ ideasRouter.get('/:ideaId', (req,res,next) => {
 })
 
 // PUT request that updates a single idea by id
-ideasRouter.put('/:ideaId', (req,res,next) => {
-    const ideaToUpdate = req.body;
-    if (checkMillionDollarIdea(Number(ideaToUpdate.numWeeks), Number(ideaToUpdate.weeklyRevenue))) {
-        const updatedIdea = updateInstanceInDatabase('ideas', ideaToUpdate);
-        if(updatedIdea) {
-            res.status(200).send(updatedIdea);
-        } else {
-            res.status(400).send("Invalid input")
-        }
+ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req,res,next) => {
+    const updatedIdea = updateInstanceInDatabase('ideas', req.body);
+    if(updatedIdea) {
+        res.status(200).send(updatedIdea);
+    } else {
+        res.status(400).send("Invalid input")
     }
 })
 
 // DELETE request that deletes a single idea by id
 ideasRouter.delete('/:ideaId', (req,res,next) => {
-    res.status(200).send(deleteFromDatabasebyId('ideas', req.id));
+    res.status(204).send(deleteFromDatabasebyId('ideas', req.id));
 })
 
 module.exports = ideasRouter;

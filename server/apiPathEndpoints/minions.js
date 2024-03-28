@@ -14,6 +14,7 @@ minionsRouter.param('minionId', (req,res,next,id) => {
             req.id = minionId;
             next();
         } else {
+            req.status = 404;
             next(new Error("The requested minion was not found in our database. Please try a different Id."))
         }
     } catch (err) {
@@ -28,10 +29,8 @@ minionsRouter.get('/', (req,res,next) => {
 
 // POST request that creates a new minion and saves it to the database
 minionsRouter.post('/', (req,res,next) => {
-    const newMinionToCreate = req.body;
-
-    if(newMinionToCreate.name && newMinionToCreate.title && newMinionToCreate.weaknesses && newMinionToCreate.salary) {
-        const newMinion = addToDatabase('minions', newMinionToCreate);
+    if(req.body) {
+        const newMinion = addToDatabase('minions', req.body);
         res.status(201).send(newMinion);
     } else {
         res.status(400).send("Minion must have all fields filled out to be created!")
@@ -58,7 +57,7 @@ minionsRouter.put('/:minionId', (req,res,next) => {
 
 // DELETE request that deletes a single minion by id
 minionsRouter.delete('/:minionId', (req,res,next) => {
-    res.status(200).send(deleteFromDatabasebyId('minions', req.id));
+    res.status(204).send(deleteFromDatabasebyId('minions', req.id));
 })
 
 module.exports = minionsRouter;

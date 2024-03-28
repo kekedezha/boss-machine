@@ -30,7 +30,9 @@ apiRouter.use('/ideas', ideasRouter); // '/api/ideas'
 const meetingsRouter = require ('./server/apiPathEndpoints/meetings');
 apiRouter.use('/meetings', meetingsRouter); // '/api/meetings'
 
-
+app.use((err, req, res, next) => {
+  res.status(req.status).send(err.message);
+})
 
 // This conditional is here for testing purposes:
 if (!module.parent) { 

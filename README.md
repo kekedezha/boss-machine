@@ -4,7 +4,7 @@
 
 In this project, I created an entire API to serve information to a Boss Machine, a unique management application for today's most accomplished (evil) entrepreneurs. I created routes to manage 'minions', brilliant 'million dollar ideas', and to handle all the annoying meetings that keep getting added to a busy schedule.
 
-Project comes from an off-platform projected created by Codecademy. Project steps and details are outlined below: 
+Project created by Codecademy seen in their Back-End Course. Project steps and details are outlined below: 
 
 
 ## How to Begin

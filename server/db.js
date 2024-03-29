@@ -210,6 +210,17 @@ const getFromDatabaseById = (modelType, id) => {
   });
 }
 
+// Function added by C Dezha to get all work for specified minion
+const getWorkFromDatabaseByMinionID = (modelType, id) => {
+  const model = findDataArrayByName(modelType);
+  if (model === null) {
+    return null;
+  }
+  return model.data.filter((element) => {
+    return element.minionId === id;
+  })
+}
+
 const addToDatabase = (modelType, instance) => {
   const model = findDataArrayByName(modelType);
   if (model === null) {
@@ -230,6 +241,23 @@ const updateInstanceInDatabase = (modelType, instance) => {
   const instanceIndex = model.data.findIndex((element) => {
     return element.id === instance.id;
   });
+  if (instanceIndex > -1 && model.isValid(instance)) {
+    model.data[instanceIndex] = instance;
+    return model.data[instanceIndex];
+  } else {
+    return null;
+  }
+}
+
+// Function added by C Dezha to update work item by specified minion
+const updateWorkInDatabase = (modelType, instance, id, minionId) => {
+  const model = findDataArrayByName(modelType);
+  if (model === null) {
+    return null;
+  }
+  const instanceIndex = model.data.findIndex((element) => {
+    return (element.id == id && element.minionId == minionId);
+  })
   if (instanceIndex > -1 && model.isValid(instance)) {
     model.data[instanceIndex] = instance;
     return model.data[instanceIndex];
@@ -263,6 +291,23 @@ const deleteAllFromDatabase = (modelType) => {
   return model.data;
 }
 
+// Function added by C Dezha to delete one work item by specified minion
+const deleteWorkFromDatabaseByMinionID = (modelType, id, minionId) => {
+  const model = findDataArrayByName(modelType);
+  if (model === null) {
+    return null;
+  }
+  let index = model.data.findIndex((element) => {
+    return element.id == id && element.minionId == minionId;
+  })
+  if (index !== -1) {
+    model.data.splice(index, 1);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   createMeeting,
   getAllFromDatabase,
@@ -271,4 +316,7 @@ module.exports = {
   updateInstanceInDatabase,
   deleteFromDatabasebyId,
   deleteAllFromDatabase,
+  getWorkFromDatabaseByMinionID, 
+  deleteWorkFromDatabaseByMinionID,
+  updateWorkInDatabase
 };

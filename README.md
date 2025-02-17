@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-In this project, I created an entire API to serve information to a Boss Machine, a unique management application for today's most accomplished (evil) entrepreneurs. I created routes to manage 'minions', brilliant 'million dollar ideas', and to handle all the annoying meetings that keep getting added to a busy schedule.
+In this project, I created an entire RESTful API to serve information to a Boss Machine, a unique management application for today's most accomplished (evil) entrepreneurs. I created routes to manage 'minions', brilliant 'million dollar ideas', and to handle all the annoying meetings that keep getting added to a busy schedule.
 
 Project idea by Codecademy seen in their Full-Stack Course. Project steps and details are outlined below:
 
